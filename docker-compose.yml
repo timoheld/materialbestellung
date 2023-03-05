@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  appliaktion:
+    image: snickch/flask001:microblog-13
+    ports:
+      - 5000:5000
+    volumes:
+      - /root/materialbestellung/app/:/app/
+  mysqldb:
+   image: mariadb
+   ports: 
+     - 3306:3306
+   environment:
+     - MARIADB_ROOT_PASSWORD=p@ssw0rd1
+   volumes:
+     - /root/materialbestellung/db/:/var/lib/mysql
+     - /root/materialbestellung/dbconfig/:/etc/mysql
