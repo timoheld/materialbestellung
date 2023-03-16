@@ -1,18 +1,25 @@
 version: '3.8'
 
 services:
-  appliaktion:
-    image: snickch/flask001:microblog-13
-    ports:
-      - 5000:5000
-    volumes:
-      - /root/materialbestellung/app/:/app/
   mysqldb:
-   image: mariadb
+   image: mysql:8.0
    ports: 
      - 3306:3306
    environment:
-     - MARIADB_ROOT_PASSWORD=p@ssw0rd1
+     - MYSQL_ROOT_PASSWORD=Master01
+     - MYSQL_DATABASE=materialbestellung
+     - MYSQL_USER=materialbestellung
+     - MYSQL_ROOT_PASSWORD=Master02
    volumes:
      - /root/materialbestellung/db/:/var/lib/mysql
-     - /root/materialbestellung/dbconfig/:/etc/mysql
+  appliaktion:
+    image: materialbestellung:v0.3
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL='mariadb+mariadbconnector://root:Master01@materialbestellung-mysqldb-1:3306/materialbestellung'
+    volumes:
+      #- /root/materialbestellung/:/home/materialbestellung
+      - /root/materialbestellung/:/materialbestellung
+    depends_on:
+      - mysqldb

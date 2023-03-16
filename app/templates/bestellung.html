@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Bestellung:</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.activityDate.label }}<br>
+            {{ form.activityDate(size=32) }}<br>
+            {% for error in form.activityDate.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <table id="table-body">
+            <tr>
+                <th>Artikel</th>
+                <th>Anzahl</th>
+                <th>Beschreibung</th>
+            </tr>
+            <tr>
+                <td>
+                    {{ form.article.label }}<br>
+                    {{ form.article(size=32) }}<br>
+                    {% for error in form.article.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ form.amount.label }}<br>
+                    {{ form.amount(size=15) }}<br>
+                    {% for error in form.amount.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ form.description.label }}<br>
+                    {{ form.description(size=50) }}<br>
+                    {% for error in form.description.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+        <button type="button" onclick="addRow()">Add Row</button>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <script>
+        function addRow() {
+            var row = '<tr><td>{{ form.article.label }}<br>{{ form.article(size=32) }}<br>{% for error in form.article.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}<td>{{ form.amount.label }}<br>{{ form.amount(size=15) }}<br>{% for error in form.amount.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</td><td>{{ form.description.label }}<br>{{ form.description(size=50) }}<br>{% for error in form.description.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</td></tr>';
+            $('#table-body').append(row);
+        }
+    </script>
+    
+{% endblock %}
