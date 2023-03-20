@@ -1,0 +1,40 @@
+
+<html>
+  <body>
+    <h1>Bestellformular</h1>
+    <form method="POST" action="">
+      <label for="datum">Datum:</label>
+      <input type="date" id="datum" name="datum"><br><br>
+      <div id="order">
+        <table>
+          <thead>
+            <th>Artikel</th>
+            <th>Anzahl</th>
+            <th>Beschreibung</th>
+          </thead>
+          <tbody id="material">
+          </tbody>
+        </table>
+      </div>
+      <button type="button" id="addArticle">Weiteres Material hinzufügen</button><br>
+      <!-- <button type="button" onclick="addMaterial()">Weiteres Material hinzufügen</button><br><br> -->
+      <input type="submit" value="Bestellung aufgeben">
+    </form>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script>
+      // function addMaterial() {
+      //   var div = document.createElement('div');
+      //   div.innerHTML = '<label for="articles">Material:</label><input type="text" id="articles" name="articles[]" value="-"><input type="text" id="amounts" name="amounts[]" value="-"><input type="text" id="descriptions" name="descriptions[]" value="-">';
+      //   document.getElementById('order').appendChild(div);
+      // }
+      $( document ).ready(function() {
+        $( "#material" ).append( '<tr><td><input type="text" id="articles" name="articles[]" value="-"></td><td><input type="text" id="amounts" name="amounts[]" value="-"></td><td><input type="text" id="descriptions" name="descriptions[]" value="-"></td></tr>');
+        counter++;
+      });
+      $("#addArticle").click(function(){
+          $( "#material" ).append('<tr><td><input type="text" id="articles" name="articles[]" value="-"></td><td><input type="text" id="amounts" name="amounts[]" value="-"></td><td><input type="text" id="descriptions" name="descriptions[]" value="-"></td></tr>');
+          counter++;
+      });
+    </script>
+  </body>
+</html>

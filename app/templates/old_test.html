@@ -1,0 +1,91 @@
+<!-- templates/index.html 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask dynamic WTF forms</title>
+</head>
+<body>
+    <h1 style="text-align: center;">My Favourite article</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.activityDate.label }}<br>
+            {{ form.activityDate(size=32) }}<br>
+            {% for error in form.activityDate.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <table id="table-body">
+            <tr>
+                <th>Artikel</th>
+                <th>Anzahl</th>
+                <th>Beschreibung</th>
+            </tr>
+            <tr>
+                <td>
+                    {{ form.article.label }}<br>
+                    {{ form.article(size=32) }}<br>
+                    {% for error in form.article.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ form.amount.label }}<br>
+                    {{ form.amount(size=15) }}<br>
+                    {% for error in form.amount.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ form.description.label }}<br>
+                    {{ form.description(size=50) }}<br>
+                    {% for error in form.description.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            <div id="articles"></div> 
+        </table>
+        <button type="button" id="addArticle">Add Row</button>
+        <p>{{ form.submit() }}</p>
+</body>
+</html> -->
+<!-- <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script>
+    // window.onload = function() {
+    //     let addarticleFieldBtn = document.getElementById('add-article-field');
+    //     addarticleFieldBtn.addEventListener('click', function(e){
+    //         e.preventDefault();
+    //         let allarticleFieldWrapper = document.getElementById('article');
+    //         let allarticleField = allarticleFieldWrapper.getElementsByTagName('input');
+    //         if(allarticleField.length > 4) {
+    //             alert('You can  have only five article name');
+    //             return;
+    //         }
+    //         let articleInputIds = []
+    //         for(let i = 0; i < allarticleField.length; i++) {
+    //             articleInputIds.push(parseInt(allarticleField[i].name.split('-')[1]));
+    //         }
+    //         let newFieldName = `article-${Math.max(...articleInputIds) + 1}`;
+    //         allarticleFieldWrapper.insertAdjacentHTML('beforeend','
+    //         <li><label for="${newFieldName}">article Name</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li> 
+    //         ');
+    //     });
+    // }
+    
+    var counter = 0;
+    $( document ).ready(function() {
+        $( "#articles" ).append( "<tr><td><input name='articles["+counter+"][article]' type='text' value=''></td><td><input name='articles["+counter+"][amount]' type='text' value='''></td><td><input name='articles["+counter+"][description]' type='text' value=''></td></tr>" );
+        counter++;
+    });
+    $("#addArticle").click(function(){
+        $( "#articles" ).append( "<tr><td><input name='articles["+counter+"][article]'type='text' value=''></td><td><input name='articles["+counter+"][amount]' type='text' value=''></td><td><input name='articles["+counter+"][description]' type='text' value=''></td></tr>" );
+        counter++;
+    });
+    
+
+</script> -->
+

@@ -80,18 +80,16 @@ class Bestellung(db.Model):
     activityDate = db.Column(db.DateTime)
     pickUpDate = db.Column(db.DateTime)
     returnDate = db.Column(db.DateTime)
-    article = db.Column(db.String(50))
-    amount = db.Column(db.Integer)
-    description = db.Column(db.String(500))
+    # articles = db.Column(db.String(500))
+    # amount = db.Column(db.Integer)
+    # description = db.Column(db.String(500))
 
     def __repr__(self):
         return '<Bestellung {}>'.format(self.body)
 
-# class Post(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     body = db.Column(db.String(140))
-#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-#     def __repr__(self):
-#         return '<Post {}>'.format(self.body)
+class Material(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bestellung_id = db.Column(db.Integer, db.ForeignKey('bestellung.id'))
+    article = db.Column(db.String(50))
+    amount = db.Column(db.Integer)
+    description = db.Column(db.String(500))

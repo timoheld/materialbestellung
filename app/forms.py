@@ -9,7 +9,7 @@
 #     submit = SubmitField('Login')
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, FieldList
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
@@ -38,12 +38,19 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different email address.')
 
+# class ArticlesForm(FlaskForm):
+#     article = StringField("Artikel")
+#     amount = StringField("Anzahl")
+#     description = StringField("Beschreibung")
+
+
 class BestellungForm(FlaskForm):
-    # activityDate = DateField('Datum der Aktivität', validators=[DataRequired()], format='%Y-%m-%d')
-    # article = StringField('Artikel', validators=[DataRequired()])
-    # amount = StringField('Menge', validators=[DataRequired()])
     activityDate = DateField("",validators=[DataRequired()], format='%Y-%m-%d')
     article = StringField("",validators=[DataRequired()])
     amount = StringField("",validators=[DataRequired()])
     description = StringField("")
+    # articles = FieldList(FormField(ArticlesForm))
     submit = SubmitField('Bestellen')
+
+
+
