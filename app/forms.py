@@ -16,40 +16,32 @@ from app.models import User
 
 class LoginForm(FlaskForm):
     scoutname = StringField('Pfadiname', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Sign In')
+    password = PasswordField('Passwort', validators=[DataRequired()])
+    submit = SubmitField('Einloggen')
 
 
 class RegistrationForm(FlaskForm):
     scoutname = StringField('Pfadiname', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    password = PasswordField('Passwort', validators=[DataRequired()])
+    password2 = PasswordField('Passwort wiederholen', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Registrieren')
 
     def validate_scoutname(self, scoutname):
         user = User.query.filter_by(scoutname=scoutname.data).first()
         if user is not None:
-            raise ValidationError('Please use a different scoutname.')
+            raise ValidationError('Bitte verwenden einen anderen Pfadinamen!')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
-
-# class ArticlesForm(FlaskForm):
-#     article = StringField("Artikel")
-#     amount = StringField("Anzahl")
-#     description = StringField("Beschreibung")
-
+            raise ValidationError('Bitte verwenden eine andere Email Adresse!')
 
 class BestellungForm(FlaskForm):
     activityDate = DateField("",validators=[DataRequired()], format='%Y-%m-%d')
     article = StringField("",validators=[DataRequired()])
     amount = StringField("",validators=[DataRequired()])
     description = StringField("")
-    # articles = FieldList(FormField(ArticlesForm))
     submit = SubmitField('Bestellen')
 
 

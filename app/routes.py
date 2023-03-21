@@ -1,10 +1,12 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify, make_response
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, BestellungForm
 from app.models import User, Bestellung, Material
+# from flask_user import roles_required
 import itertools
+import jwt
 
 def get_next_id(table_name):
     sequence_name = db.session.execute(f"SHOW CREATE TABLE {table_name}").fetchone()[1].split()[-1]
@@ -19,7 +21,7 @@ def index():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def login(): 
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -56,63 +58,54 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-# @app.route('/bestellung', methods=['GET', 'POST'])
-# @login_required
-# def bestellung():
-#     form = BestellungForm()
-#     if form.validate_on_submit():
-#         bestellung = Bestellung(scoutname=current_user.id, activityDate=form.activityDate.data, article=form.article.getlist, amount=form.amount.data, description=form.description.data)
-#         db.session.add(bestellung)
-#         db.session.commit()
-#         flash('Bestellung wurde versendet!')
-#     return render_template('bestellung.html', title='Bestellung', form=form)
-
 @app.route('/bestellung', methods=['GET', 'POST'])
 @login_required
 def bestellung():
+    if current_user.role != 1:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         best_id = get_next_id("bestellung")
-        bestellung = Bestellung(id=best_id, scoutname=current_user.id, activityDate=request.form['datum'])
+        bestellung = Bestellung(id=best_id, user_id=current_user.id, activityDate=request.form['datum'], orderStatus=1)
         db.session.add(bestellung)
         articles = request.form.getlist('articles[]')
         amounts = request.form.getlist('amounts[]')
         descriptions = request.form.getlist('descriptions[]')
-        # x = []
         for art, amt, des in zip(articles, amounts, descriptions):
             material = Material(bestellung_id=best_id, article=art, amount=amt, description=des)
             db.session.add(material)
-            # x.append([art, amt, des])
-        # bestellung = Bestellung(scoutname=current_user.id, activityDate=request.form['datum'], articles=str(x))
         db.session.add(bestellung)
         db.session.commit()
         flash('Bestellung wurde versendet!')
     return render_template('bestellung.html', title='Bestellung')
 
 
-# @app.route('/showOrders' emthods['GET'])
-# @login_required
-# def showBestellungen():
-#     articles = Bestellung.query.all()
-#     return render_template('showOrders.html', articles=articles)
+@app.route('/showOrders', methods=['GET'])
+@login_required
+def showBestellungen():
+    if current_user.role != 2:
+        return redirect(url_for('login'))
+    newOrders = db.session.query(Bestellung, User).join(User, Bestellung.user_id == User.id).filter(Bestellung.orderStatus==1).order_by(Bestellung.id.desc()).all()
+    oldOrders = db.session.query(Bestellung, User).join(User, Bestellung.user_id == User.id).filter(Bestellung.orderStatus==2).order_by(Bestellung.id.desc()).all()
+    return render_template('showOrders.html', newOrders=newOrders, oldOrders=oldOrders)
 
+@app.route('/acceptOrder/<int:id>', methods=['GET', 'POST'])
+def acceptOrder(id):
+    order = Bestellung.query.get(id)
+    if request.method == 'POST':
+        order.orderStatus = 2
+        flash('Bestellung wurde Akzeptiert!')
+        db.session.commit()
+    return "accept"
 
+@app.route('/profile', methods=['GET'])
+@login_required
+def profile():
+    # myOrders = Bestellung.query.filter_by(user_id=current_user.id)
+    myOrders = db.session.query(Bestellung, User).join(User, Bestellung.user_id == User.id).filter(Bestellung.user_id==current_user.id).order_by(Bestellung.id.desc()).all()
+    return render_template('profile.html', myOrders=myOrders)
 
+# API
 
-
-    # form  = BestellungForm()
-    # if request.method == 'POST' and form.validate():
-    #     # entries = []
-    #     for article_form in form.articles:
-    #         article = ArticlesForm(article=article_form.article.data, amount=article_form.amount.data, description=article_form.description.data)
-    #         db.session.add(article)
-    #         db.session.flush()
-    #         bestellung = Bestellung() 
-    #         db.session.add()
-    #     return redirect(url_for('index'))
-    # return render_template('index.html', form=form)
-
-    # if form.validate_on_submit():
-    #     response = "Form Contents <pre>%s</pre>" % "<br/>\n".join(["%s:%s" % item for item in form.items()] )
-    #     # return render_template('testsubmit.html', activityDate=form.activityDate.data, article=form.article.getlist)
-    #     return response
-    # return render_template('test.html', form=form)
+@app.route("/api")
+def index_view():
+    return jsonify(msg="This is the API for the 'Materialbestellungs-Tool' form Pfadi Anngenstein!")

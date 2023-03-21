@@ -1,0 +1,44 @@
+.content{
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.navbar{
+    background-color: #ffeb3b !important;
+}
+
+.alert{
+    width: 50%;
+    position: sticky;
+    top: 50px;
+    left:calc(100% - 50%)
+}
+
+.order-box{
+    padding-top: 10px;
+    padding-left: 2%;
+    padding-right: 2%;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.acceptButton{
+    margin-bottom: 10px;
+}
+
+.login-form{
+    width: 350px;
+    border: 2px solid #dee2e6;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 5px;
+}
+
+.register-form{
+    width:500px;
+    border: 2px solid #dee2e6;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 5px;   
+}
