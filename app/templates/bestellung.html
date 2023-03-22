@@ -1,39 +1,44 @@
+<!--Eigenentwicklung-->
 {% extends "base.html" %}
 {% block content %}
-<h1>Bestellformular</h1>
-<form method="POST" action="">
-  <label for="datum">Datum:</label>
-  <input type="date" id="datum" name="datum"><br><br>
-  <div id="order">
-    <table>
-      <thead>
-        <th>Artikel</th>
-        <th>Anzahl</th>
-        <th>Beschreibung</th>
-      </thead>
-      <tbody id="material">
-      </tbody>
-    </table>
+
+<div class="orderForm container">
+  <h1>Bestellformular</h1>
+  <form method="POST" action="">
+    <label for="datum">Datum:</label>
+    <input type="date" class="form-control" id="datum" name="datum"><br><br>
+    <div id="order">
+      <table>
+        <thead>
+          <th>Artikel</th>
+          <th>Anzahl</th>
+          <th>Beschreibung</th>
+        </thead>
+        <tbody id="material">
+        </tbody>
+      </table>
+    </div>
+    <!-- <button type="button" class="btn btn-secondary" id="addArticle">Weiteres Material hinzufügen</button><br> -->
+    <a id="addArticle"><?xml version="1.0" encoding="UTF-8"?><svg id="Ebene_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100.89 100.89" style="width: 30px; height:30px;"><defs><style>.cls-1{stroke-linecap:round;}.cls-1,.cls-2{fill:none;stroke:#1d1d1b;stroke-miterlimit:10;stroke-width:11px;}</style></defs><g id="Ebene_1-2"><circle class="cls-2" cx="50.44" cy="50.44" r="44.94"/><g><line class="cls-1" x1="50.44" y1="25.72" x2="50.44" y2="75.16"/><line class="cls-1" x1="25.76" y1="50.44" x2="75.2" y2="50.44"/></g></g></svg></a><br>
+    <input type="submit" class="btn btn-secondary" id="submitOrder" value="Bestellung aufgeben">
+  </form>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert alert-success falshes" role="alert">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
   </div>
-  <button type="button" id="addArticle">Weiteres Material hinzufügen</button><br>
-  <input type="submit" value="Bestellung aufgeben">
-</form>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-success falshes" role="alert">
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
+  {% endif %}
+  {% endwith %}
 </div>
-{% endif %}
-{% endwith %}
 <script>
   $( document ).ready(function() {
-    $( "#material" ).append( '<tr><td><input type="text" id="articles" name="articles[]" value="-"></td><td><input type="text" id="amounts" name="amounts[]" value="-"></td><td><input type="text" id="descriptions" name="descriptions[]" value="-"></td></tr>');
+    $( "#material" ).append( '<tr><td><input type="text" id="articles" class="form-control" maxlength="50" name="articles[]" required></td><td><input type="number" id="amounts" class="form-control" name="amounts[]" ></td><td><input type="text" id="descriptions" class="form-control" maxlength="500" name="descriptions[]" ></td></tr>');
     counter++;
   });
   $("#addArticle").click(function(){
-      $( "#material" ).append('<tr><td><input type="text" id="articles" name="articles[]" value="-"></td><td><input type="text" id="amounts" name="amounts[]" value="-"></td><td><input type="text" id="descriptions" name="descriptions[]" value="-"></td></tr>');
+      $( "#material" ).append('<tr><td><input type="text" id="articles" class="form-control" maxlength="50" name="articles[]" required></td><td><input type="number" id="amounts" class="form-control" name="amounts[]" ></td><td><input type="text" id="descriptions" class="form-control" maxlength="500" name="descriptions[]" ></td></tr>');
       counter++;
   });
 

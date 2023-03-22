@@ -1,71 +1,74 @@
+<!--Eigenentwicklung-->
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="title">Neue Bestellungen:</h2>
-{% for order,user in newOrders %}
-<div class="order-box">
-  <div class="order-box-header"><span style="font-weight:bold;">Bestellung Nr:</span> {{ order.id }}</div>
-  <div class="order-box-body">
-    <p class="order-box-text">
-      <span style="font-weight:bold;">Name:</span> {{ user.scoutname }}<br>
-      <span style="font-weight:bold;">Aktivität:</span> {{ order.activityDate.strftime('%d.%m.%Y') }}<br>
-      <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Angenommen {% else %} Kein Status vorhanden {% endif %}
-    </p>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Artikel</th>
-          <th scope="col">Anzahl</th>
-          <th scope="col">Beschreibung</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for art in order.articles %}
-        <tr>
-          <td>{{ art.article }}</td>
-          <td>{{ art.amount }}</td>
-          <td>{{ art.description }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <button type="button" class="btn btn-secondary acceptButton" onclick="accept({{ order.id }})">Annehmen</button>
+<div class="container orderPage">
+  <h2 class="title">Neue Bestellungen:</h2>
+  {% for order,user in newOrders %}
+  <div class="order-box">
+    <div class="order-box-header"><span style="font-weight:bold;">Bestellung Nr:</span> {{ order.id }}</div>
+    <div class="order-box-body">
+      <p class="order-box-text">
+        <span style="font-weight:bold;">Name:</span> {{ user.scoutname }}<br>
+        <span style="font-weight:bold;">Aktivität:</span> {{ order.activityDate.strftime('%d.%m.%Y') }}<br>
+        <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Angenommen {% else %} Kein Status vorhanden {% endif %}
+      </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Artikel</th>
+            <th scope="col">Anzahl</th>
+            <th scope="col">Beschreibung</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for art in order.articles %}
+          <tr>
+            <td>{{ art.article }}</td>
+            <td>{{ art.amount }}</td>
+            <td>{{ art.description }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-secondary acceptButton" onclick="accept({{ order.id }})">Annehmen</button>
+    </div>
   </div>
-</div>
-{% endfor %}
+  {% endfor %}
 
-<h2 class="title">Bestellungen:</h2>
+  <h2 class="title">Bestellungen:</h2>
 
-{% for order,user in oldOrders %}
-<div class="order-box border-light mb-0" style="margin-top: 20px;">
-  <div class="order-box-header"><span style="font-weight:bold;">Bestellung Nr:</span> {{ order.id }}</div>
-  <div class="order-box-body">
-    <p class="order-box-text">
-      <span style="font-weight:bold;">Name:</span> {{ user.scoutname }}<br>
-      <span style="font-weight:bold;">Aktivität:</span> {{ order.activityDate.strftime('%d.%m.%Y') }}<br>
-      <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Angenommen {% else %} Kein Status vorhanden {% endif %}
-    </p>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Artikel</th>
-          <th scope="col">Anzahl</th>
-          <th scope="col">Beschreibung</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for art in order.articles %}
-        <tr>
-          <td>{{ art.article }}</td>
-          <td>{{ art.amount }}</td>
-          <td>{{ art.description }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  {% for order,user in oldOrders %}
+  <div class="order-box border-light mb-0" style="margin-top: 20px;">
+    <div class="order-box-header"><span style="font-weight:bold;">Bestellung Nr:</span> {{ order.id }}</div>
+    <div class="order-box-body">
+      <p class="order-box-text">
+        <span style="font-weight:bold;">Name:</span> {{ user.scoutname }}<br>
+        <span style="font-weight:bold;">Aktivität:</span> {{ order.activityDate.strftime('%d.%m.%Y') }}<br>
+        <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Angenommen {% else %} Kein Status vorhanden {% endif %}
+      </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Artikel</th>
+            <th scope="col">Anzahl</th>
+            <th scope="col">Beschreibung</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for art in order.articles %}
+          <tr>
+            <td>{{ art.article }}</td>
+            <td>{{ art.amount }}</td>
+            <td>{{ art.description }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+  {% endfor %}
 </div>
-{% endfor %}
 <script>
   function accept(id) {
     $.ajax({

@@ -42,3 +42,58 @@
     margin-top: 50px;
     border-radius: 5px;   
 }
+
+#submitOrder{
+    margin-top:20px;
+}
+
+#addArticle{
+    margin-top:20px;
+}
+
+#addArticle:hover{
+    cursor: pointer;
+}
+
+#datum{
+    max-width: 300px;
+}
+
+#amounts{
+    width:100px
+}
+
+#descriptions{
+    width: 500px;
+}
+
+.orderForm{
+    width:800px;
+    border: 2px solid #dee2e6;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 5px;  
+}
+
+.helloPage{
+    width: 1000px;
+    border: 2px solid #dee2e6;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 5px;
+}
+
+.body-text{
+    border: 2px solid #dee2e6;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.profilePage, .orderPage{
+    margin-top: 50px;
+}
+
+.roleRadio{
+    list-style: none;
+}

@@ -1,6 +1,12 @@
+<!--Eigenentwicklung-->
 {% extends "base.html" %}
 {% block content %}
+<div class="container helloPage">
+    <h5> Hallo {{ current_user.scoutname}}!</h5>
+    <p>
+        Diese Webapplikation ist, um das Material beim Materialchef zu bestellen, welches für die Pfadiaktivitäten gebraucht wird!
+        Hier kommt noch eine Anleitung für die Applikation!
+    </p>
+</div>
 
-<h5> Hallo {{ current_user.scoutname}}!</h5>
-<p>Diese Webapplikation ist, um das Material beim Materialchef zu bestellen, welches für die Pfadiaktivitäten gebraucht wird!</p>
 {% endblock %}
