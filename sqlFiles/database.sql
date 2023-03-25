@@ -1,1 +1,0 @@
-CREATE DATABASE IF NOT EXISTS materialbestellung CHARACTER SET = utf8mb3;
