@@ -2,24 +2,22 @@ version: '3.8'
 
 services:
   mysqldb:
-   image: mysql:8.0
-   ports: 
+    image: mysql:8.0
+    ports: 
      - 3306:3306
-   environment:
+    environment:
      - MYSQL_ROOT_PASSWORD=Master01
      - MYSQL_DATABASE=materialbestellung
-     - MYSQL_USER=materialbestellung
-     - MYSQL_ROOT_PASSWORD=Master02
-   volumes:
+    volumes:
      - /root/materialbestellung/db/:/var/lib/mysql
+    restart: always
   appliaktion:
-    image: materialbestellung:v0.3
+    #image: materialbestellung:v0.3
+    image: gunicorn:v0.1
     ports:
       - 5000:5000
-    environment:
-      - DATABASE_URL='mariadb+mariadbconnector://root:Master01@materialbestellung-mysqldb-1:3306/materialbestellung'
     volumes:
-      #- /root/materialbestellung/:/home/materialbestellung
       - /root/materialbestellung/:/materialbestellung
+    restart: always
     depends_on:
       - mysqldb

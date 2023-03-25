@@ -18,7 +18,7 @@
         <p class="order-box-text">
           <span style="font-weight:bold;">Name:</span> {{ user.scoutname }}<br>
           <span style="font-weight:bold;">Aktivität:</span> {{ order.activityDate.strftime('%d.%m.%Y') }}<br>
-          <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Angenommen {% else %} Kein Status vorhanden {% endif %}
+          <span style="font-weight:bold;">Status:</span> {% if order.orderStatus == 1 %} Angefragt {% elif order.orderStatus  == 2 %} Bereit zur Abholung {% else %} Kein Status vorhanden {% endif %}
         </p>
         <table class="table">
           <thead>
