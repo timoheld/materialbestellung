@@ -5,19 +5,22 @@ services:
     image: mysql:8.0
     ports: 
      - 3306:3306
+    container_name: materialbestellung-mysqldb
     environment:
      - MYSQL_ROOT_PASSWORD=Master01
      - MYSQL_DATABASE=materialbestellung
     volumes:
-     - /root/materialbestellung/db/:/var/lib/mysql
+     - /tmp/matTest/db/:/var/lib/mysql
     restart: always
   appliaktion:
-    #image: materialbestellung:v0.3
-    image: gunicorn:v0.1
+    image: timoheld/materialbestellung:v1.0
     ports:
-      - 5000:5000
+      - 5001:5000
+    container_name: materialbestellung-app
+    environment:
+     - DATABASE_URL=mysql+pymysql://root:Master01@materialbestellung-mysqldb:3306/materialbestellung
     volumes:
-      - /root/materialbestellung/:/materialbestellung
+      - /tmp/matArsch/materialbestellung/:/materialbestellung
     restart: always
     depends_on:
       - mysqldb

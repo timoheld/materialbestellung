@@ -1,6 +1,6 @@
 # Übernommen aus den Beispielen
 from datetime import datetime, timedelta
-from app import db, login
+from app import app, db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import base64
@@ -57,3 +57,15 @@ class Roles(db.Model):
     role_name = db.Column(db.String(50))
     role_description = db.Column(db.String(100))
     users = db.relationship('User', backref='roles', lazy=True)
+
+@app.before_first_request
+def create_roles():
+    # Überprüfe, ob die Tabelle bereits Einträge enthält
+    if Roles.query.count() == 0:
+        # Lege die beiden Einträge an
+        roles = [
+            {'id': 1, 'role_name': 'scout', 'role_description': 'Die Rolle "scout" berechtigt einem Material fpr eine Aktivitaet zu Bestellen!'},
+            {'id': 2, 'role_name': 'headOfMaterial', 'role_description': 'Die Rolle "headOfMaterial" berechtigt einem Bestellungen anzunehmen!'}
+        ]
+        db.session.bulk_insert_mappings(Roles, roles)
+        db.session.commit()
