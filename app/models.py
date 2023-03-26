@@ -10,9 +10,9 @@ import os
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     scoutname = db.Column(db.String(50), index=True, unique=True)
-    email = db.Column(db.String(256), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
     role = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(256))
     bestellungen = db.relationship('Bestellung', backref='user', lazy=True)
 
     # Übernommen aus den Beispielen
@@ -36,10 +36,7 @@ def load_user(id):
 class Bestellung(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    orderDate = db.Column(db.DateTime)
     activityDate = db.Column(db.DateTime)
-    pickUpDate = db.Column(db.DateTime)
-    returnDate = db.Column(db.DateTime)
     articles = db.relationship('Material', backref='bestellung', lazy=True)
     orderStatus = db.Column(db.Integer)
 
